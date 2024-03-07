@@ -2,22 +2,24 @@ defmodule BlogWeb.Router do
   use BlogWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, html: {BlogWeb.Layouts, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, html: {BlogWeb.Layouts, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
-  scope "/", BlogWeb do
-    pipe_through :browser
+  scope "/api" do
+    pipe_through(:api)
 
-    get "/", PageController, :home
+    forward("/graphiql", Absinthe.Plug.GraphiQL, schema: BlogWeb.Schema)
+
+    forward("/", Absinthe.Plug, schema: BlogWeb.Schema)
   end
 
   # Other scopes may use custom stacks.
@@ -35,10 +37,10 @@ defmodule BlogWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: BlogWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      live_dashboard("/dashboard", metrics: BlogWeb.Telemetry)
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 end
