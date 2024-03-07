@@ -51,7 +51,8 @@ defmodule Blog.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
-      {:absinthe, "~> 1.7", override: true}
+      {:absinthe, "~> 1.7", override: true},
+      {:absinthe_plug, "~> 1.5"}
     ]
   end
 
