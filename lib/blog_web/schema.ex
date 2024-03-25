@@ -1,4 +1,4 @@
-efmodule BlogWeb.Schema do
+defmodule BlogWeb.Schema do
   use Absinthe.Schema
   import_types(BlogWeb.Schema.ContentTypes)
 
