@@ -11,4 +11,13 @@ defmodule BlogWeb.Schema.AccountTypes do
     end
   end
 
+  enum :contact_type do
+    value :phone, as: "phone"
+    value :email, as: "email"
+  end
+  input_object :contact_input do
+    field :type, non_null(:contact_type)
+    field :value, non_null(:string)
+  end
+
 end
